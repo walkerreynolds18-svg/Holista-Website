@@ -21,13 +21,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Download site package
-        run: |
-          curl -L --fail --retry 5 --retry-delay 3 "https://durable-possibly-exhibition-blake.trycloudflare.com/holista-site.zip" -o holista-site.zip
-          mkdir public
-          unzip -q holista-site.zip -d public
-          rm -rf public/.git public/holista-site.zip
-          touch public/.nojekyll
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
@@ -35,8 +30,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: .
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-# Deployment triggered after making repository public.
